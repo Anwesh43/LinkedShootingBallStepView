@@ -118,4 +118,36 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class SBSNode(var i : Int, val state : State = State()) {
+
+        private var next : SBSNode? = null
+        private var prev : SBSNode? = null
+
+        init {
+            addNeighbor()
+        }
+
+        fun addNeighbor() {
+            if (i < nodes - 1) {
+                next = SBSNode(i + 1)
+                next?.prev = this
+            }
+        }
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            canvas.drawSBSNode(i, state.scale, paint)
+            next?.draw(canvas, paint)
+        }
+        
+        fun update(cb : (Int, Float) -> Unit) {
+            state.update {
+                cb(i, it)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            state.startUpdating(cb)
+        }
+    }
 }
