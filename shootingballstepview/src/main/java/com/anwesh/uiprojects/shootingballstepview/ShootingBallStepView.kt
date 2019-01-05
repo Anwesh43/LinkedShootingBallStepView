@@ -41,7 +41,14 @@ fun Canvas.drawSBSNode(i : Int, scale : Float, paint : Paint) {
     val hSize = gap / hSizeFactor
     val r : Float = hSize / 2
     val x : Float = -wSize * (1 - sc1)
+    val xGap : Float = wSize / (nodes + 1)
     paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    save()
+    translate(w/2 - wSize/2 + xGap * i, hSize/2 - r)
+    drawLine(0f, 0f, 0f, 2 * r * sc2, paint)
+    restore()
     save()
     translate(0f, gap * (i + 1))
     drawRect(RectF(x, -hSize, x + wSize, hSize), paint)
