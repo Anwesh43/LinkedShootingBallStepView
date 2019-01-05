@@ -149,6 +149,18 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
         fun startUpdating(cb : () -> Unit) {
             state.startUpdating(cb)
         }
+
+        fun getNext(dir : Int, cb : () -> Unit) : SBSNode {
+            var curr : SBSNode? = prev
+            if (dir == 1) {
+                curr = next
+            }
+            if (curr != null) {
+                return curr
+            }
+            cb()
+            return this
+        }
     }
 
     data class ShootingBallStep(var i : Int) {
@@ -163,6 +175,9 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
 
         fun update(cb : (Int, Float) -> Unit) {
             curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
                 cb(i, scl)
             }
         }
