@@ -209,4 +209,13 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : ShootingBallStepView {
+            val view : ShootingBallStepView = ShootingBallStepView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
