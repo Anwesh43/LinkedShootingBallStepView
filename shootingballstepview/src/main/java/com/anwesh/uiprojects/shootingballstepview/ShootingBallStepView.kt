@@ -186,4 +186,26 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : ShootingBallStepView) {
+
+        private val animator : Animator = Animator(view)
+        private var sbs : ShootingBallStep = ShootingBallStep(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            sbs.draw(canvas, paint)
+            animator.animate {
+                sbs.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            sbs.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
