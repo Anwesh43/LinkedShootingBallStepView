@@ -22,6 +22,7 @@ val wSizeFactor : Float = 3.2f
 val strokeFactor : Int = 90
 val foreColor : Int = Color.parseColor("#4CAF50")
 val backColor : Int = Color.parseColor("#BDBDBD")
+val DELAY : Long = 20
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -39,7 +40,7 @@ fun Canvas.drawSBSNode(i : Int, scale : Float, paint : Paint) {
     val wSize = w / wSizeFactor
     val hSize = gap / hSizeFactor
     val r : Float = hSize / 2
-    val x : Float = -w * (1 - sc1)
+    val x : Float = -wSize * (1 - sc1)
     paint.color = foreColor
     save()
     translate(0f, gap * (i + 1))
@@ -47,7 +48,7 @@ fun Canvas.drawSBSNode(i : Int, scale : Float, paint : Paint) {
     for (j in 0..(balls - 1)) {
         val sc : Float = sc2.divideScale(j, balls)
         save()
-        translate(x - 2 * r + (w + r) * sc, 0f)
+        translate(x + (w + r) * sc, 0f)
         drawCircle(0f, 0f, r, paint)
         restore()
     }
@@ -98,7 +99,7 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(DELAY)
                     view.invalidate()
                 } catch(ex : Exception) {
 
