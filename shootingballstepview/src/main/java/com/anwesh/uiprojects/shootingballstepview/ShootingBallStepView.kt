@@ -139,7 +139,7 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
 
         fun draw(canvas : Canvas, paint : Paint) {
             canvas.drawSBSNode(i, state.scale, paint)
-            next?.draw(canvas, paint)
+            prev?.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
@@ -167,12 +167,11 @@ class ShootingBallStepView(ctx : Context) : View(ctx) {
 
     data class ShootingBallStep(var i : Int) {
 
-        private val root : SBSNode = SBSNode(0)
-        private var curr : SBSNode = root
+        private var curr : SBSNode = SBSNode(0)
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint : Paint) {
-            root.draw(canvas, paint)
+            curr.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
